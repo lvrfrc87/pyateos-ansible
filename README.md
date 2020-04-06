@@ -5,7 +5,7 @@ Ansible module for [pyATEOS](https://gitlab.com/networkAutomation/pyateos) frame
 
 To install just run the command:
 
-`pip install git-acp-ansible`
+`pip install pyateos-ansible`
 
 ### Configure Ansible:
 
