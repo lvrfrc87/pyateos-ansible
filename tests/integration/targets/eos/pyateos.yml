@@ -1,0 +1,157 @@
+---
+    - name: START eapi/eos_pyateos.yaml
+      hosts: dev0.ams.test
+      connection: network_cli
+      gather_facts: false
+    
+      tasks:
+        - name: CONF | prepare test environment.
+          eos_config:
+            lines:
+              - no ntp server vrf mgmt 216.239.35.12
+              - no ntp server vrf mgmt 216.239.35.4
+              - no ntp server vrf mgmt 216.239.35.8
+              - no snmp-server host 8.8.8.4 version 2c public
+              - no snmp-server host 8.8.8.8 version 2c public
+              - no snmp-server host 1.1.1.1 version 2c public  
+              - no ip prefix-list T666 seq 15 permit 8.8.4.4/32
+              - no ip prefix-list T666 seq 10 permit 8.8.8.8/32
+              - no vlan 999
+              - no vlan 666
+          become: true
+    
+        - name: CONF | set NTP, SNMP config.
+          eos_config:
+            lines:
+              - ntp server vrf mgmt 216.239.35.8
+              - ntp server vrf mgmt 216.239.35.4
+              - snmp-server host 8.8.8.4 version 2c public
+              - snmp-server host 8.8.8.8 version 2c public
+          become: true
+          register: result
+        - assert:
+            that: result.changed == true
+        
+        - name: CONF | set PREFIX-LIST config.
+          eos_config:
+            lines:
+              - ip prefix-list T666 seq 10 permit 8.8.8.8/32
+          register: result
+          become: true
+        - assert:
+            that: result.changed == true
+        
+        - name: CONF | set VLAN.
+          eos_config:
+            lines:
+              - vlan 666
+          register: result  
+          become: true
+        - assert:
+            that: result.changed == true
+        
+        - name: run BEFORE tests.
+          eos_pyateos:
+            before: true
+            group: 
+              - mgmt
+            test:
+              - prefix_list
+              - vlan
+              - arp
+            hostname: "{{ inventory_hostname }}"
+          register: result
+        - assert:
+            that: (result.before_file_ids|length==5)
+        
+        - name: save BEFORE file IDs.
+          delegate_to: 127.0.0.1
+          set_fact:
+            before_ids: "{{ result.before_file_ids }}"
+      
+        - name: Find /var/log all directories, exclude nginx and mysql
+          register: result
+          find:
+            paths: ./tests
+            recurse: yes
+            file_type: file
+            patterns: '*.json'
+        - assert:
+            that: ('items.path'|length==5)
+          loo: files
+        
+        - name: CONF | change NTP, SNMP, PREFIX-LIST and VLAN config.
+          eos_config:
+            lines:
+              - no ntp server vrf mgmt 216.239.35.8
+              - ntp server vrf mgmt 216.239.35.12
+              - no snmp-server host 8.8.8.4 version 2c public
+              - snmp-server host 1.1.1.1 version 2c public
+              - ip prefix-list T666 seq 15 permit 8.8.4.4/32
+              - no ip prefix-list T666 seq 10 permit 8.8.8.8/32
+              - no vlan 666
+              - vlan 999
+          become: true
+          register: result
+        - assert:
+            that: result.changed == true
+            
+        - name: CONF | clear MAC table.
+          eos_command:
+            commands:
+              - clear mac address-table dynamic
+          become: true
+          register: result
+        - assert:
+            that: result.changed == false
+        
+        - name: run AFTER tests.
+          eos_pyateos:
+            after: true
+            group: 
+              - mgmt
+            test:
+              - prefix_list
+              - vlan
+              - arp
+            hostname: "{{ inventory_hostname }}"
+          register: result
+        - assert:
+            that:
+              - (result.after_file_ids|length==5)
+        
+        - name: save AFTER file IDs.
+          delegate_to: 127.0.0.1
+          set_fact:
+            after_ids: "{{ result.after_file_ids }}"
+        
+        - name: run DIFF result .
+          eos_pyateos:
+            compare: true
+            group: 
+              - mgmt
+            test:
+              - prefix_list
+              - vlan
+              - arp
+            hostname: "{{ inventory_hostname }}"
+            filter: true
+            files: 
+              - "{{ before_ids }}"
+              - "{{ after_ids }}"
+          register: result
+        - assert:
+            that:
+              - result.compare is defined
+        
+        - name: CONF | restore config.
+          eos_config:
+            lines:
+              - no ntp server vrf mgmt 216.239.35.12
+              - no ntp server vrf mgmt 216.239.35.4
+              - no snmp-server host 8.8.8.4 version 2c public
+              - no snmp-server host 1.1.1.1 version 2c public  
+              - no ip prefix-list T666 seq 15 permit 8.8.4.4/32
+              - no vlan 999
+          become: true
+    

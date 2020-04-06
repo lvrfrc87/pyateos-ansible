@@ -1,0 +1,1350 @@
+PLAY [START eapi/eos_pyateos.yaml] ***********************************************************************************
+
+TASK [CONF | prepare test environment.] ******************************************************************************
+changed: [sp1.dev.ams.test] => {
+    "changed": true,
+    "commands": [
+        "no ntp server vrf mgmt 216.239.35.12",
+        "no ntp server vrf mgmt 216.239.35.4",
+        "no ntp server vrf mgmt 216.239.35.8",
+        "no snmp-server host 8.8.8.4 version 2c public",
+        "no snmp-server host 8.8.8.8 version 2c public",
+        "no snmp-server host 1.1.1.1 version 2c public",
+        "no ip prefix-list T666 seq 15 permit 8.8.4.4/32",
+        "no ip prefix-list T666 seq 10 permit 8.8.8.8/32",
+        "no vlan 999",
+        "no vlan 666"
+    ],
+    "session": "ansible_1586179307",
+    "updates": [
+        "no ntp server vrf mgmt 216.239.35.12",
+        "no ntp server vrf mgmt 216.239.35.4",
+        "no ntp server vrf mgmt 216.239.35.8",
+        "no snmp-server host 8.8.8.4 version 2c public",
+        "no snmp-server host 8.8.8.8 version 2c public",
+        "no snmp-server host 1.1.1.1 version 2c public",
+        "no ip prefix-list T666 seq 15 permit 8.8.4.4/32",
+        "no ip prefix-list T666 seq 10 permit 8.8.8.8/32",
+        "no vlan 999",
+        "no vlan 666"
+    ]
+}
+
+TASK [CONF | set NTP, SNMP config.] **********************************************************************************
+changed: [sp1.dev.ams.test] => {
+    "changed": true,
+    "commands": [
+        "ntp server vrf mgmt 216.239.35.8",
+        "ntp server vrf mgmt 216.239.35.4",
+        "snmp-server host 8.8.8.4 version 2c public",
+        "snmp-server host 8.8.8.8 version 2c public"
+    ],
+    "session": "ansible_1586179313",
+    "updates": [
+        "ntp server vrf mgmt 216.239.35.8",
+        "ntp server vrf mgmt 216.239.35.4",
+        "snmp-server host 8.8.8.4 version 2c public",
+        "snmp-server host 8.8.8.8 version 2c public"
+    ]
+}
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [CONF | set PREFIX-LIST config.] ********************************************************************************
+changed: [sp1.dev.ams.test] => {
+    "changed": true,
+    "commands": [
+        "ip prefix-list T666 seq 10 permit 8.8.8.8/32"
+    ],
+    "session": "ansible_1586179320",
+    "updates": [
+        "ip prefix-list T666 seq 10 permit 8.8.8.8/32"
+    ]
+}
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [CONF | set VLAN.] **********************************************************************************************
+changed: [sp1.dev.ams.test] => {
+    "changed": true,
+    "commands": [
+        "vlan 666"
+    ],
+    "session": "ansible_1586179328",
+    "updates": [
+        "vlan 666"
+    ]
+}
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [run BEFORE tests.] *********************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "arp": {
+        "dynamicEntries": 1,
+        "ipV4Neighbors": [
+            {
+                "address": "192.168.1.2",
+                "age": 0,
+                "hwAddress": "0800.272c.2f96",
+                "interface": "Ethernet1"
+            }
+        ],
+        "notLearnedEntries": 0,
+        "staticEntries": 0,
+        "totalEntries": 1
+    },
+    "before_file_ids": [
+        1586179335,
+        1586179336,
+        1586179337,
+        1586179338,
+        1586179338
+    ],
+    "changed": false,
+    "ntp": {
+        "peers": {
+            "ns1.sys.cloudsys.tmcs": {
+                "condition": "reject",
+                "delay": 1.142,
+                "jitter": 0.0,
+                "lastReceived": 1586179318.0,
+                "offset": 0.329,
+                "peerIpAddr": "10.75.32.5",
+                "peerType": "unicast",
+                "pollInterval": 64,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": "169.254.0.1",
+                "stratumLevel": 3
+            },
+            "ns2.sys.cloudsys.tmcs": {
+                "condition": "reject",
+                "delay": 1.0,
+                "jitter": 0.0,
+                "lastReceived": 1586179319.0,
+                "offset": 0.343,
+                "peerIpAddr": "10.75.33.5",
+                "peerType": "unicast",
+                "pollInterval": 64,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": "169.254.0.1",
+                "stratumLevel": 3
+            },
+            "time2.google.com": {
+                "condition": "reject",
+                "delay": 0.0,
+                "jitter": 0.0,
+                "lastReceived": 2085978496.0,
+                "offset": 0.0,
+                "peerIpAddr": "216.239.35.4",
+                "peerType": "unicast",
+                "pollInterval": 1024,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": ".INIT.",
+                "stratumLevel": 16
+            },
+            "time3.google.com": {
+                "condition": "reject",
+                "delay": 0.0,
+                "jitter": 0.0,
+                "lastReceived": 2085978496.0,
+                "offset": 0.0,
+                "peerIpAddr": "216.239.35.8",
+                "peerType": "unicast",
+                "pollInterval": 1024,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": ".INIT.",
+                "stratumLevel": 16
+            }
+        }
+    },
+    "prefix_list": {
+        "ipPrefixLists": {
+            "T666": {
+                "duplicateHandling": "duplicateError",
+                "ipPrefixEntries": [
+                    {
+                        "filterType": "permit",
+                        "ge": 0,
+                        "le": 0,
+                        "prefix": "8.8.8.8/32",
+                        "seqno": 10
+                    }
+                ]
+            }
+        }
+    },
+    "snmp": {
+        "hosts": [
+            {
+                "hostname": "10.226.234.116",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.226.234.117",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.226.236.4",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.227.234.116",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.227.236.4",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.128.200",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.128.215",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.5.196",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.5.202",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.63.65.249",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.63.65.254",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.66.65.19",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.66.65.24",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.70.65.18",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.70.65.21",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.120.238",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.126",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.127",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.162",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.194",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.73",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.128.193",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.31",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.32",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.33",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.69",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.194",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.195",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.50",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.52",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.73",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.78.65.127",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.78.65.17",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.125.124",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.196.120",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.66.105",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.92.126",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.92.127",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.92.73",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "29.0.5.27",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "8.8.8.4",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "public"
+                },
+                "vrf": ""
+            },
+            {
+                "hostname": "8.8.8.8",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "public"
+                },
+                "vrf": ""
+            }
+        ]
+    },
+    "vlan": {
+        "sourceDetail": "",
+        "vlans": {
+            "1": {
+                "dynamic": false,
+                "interfaces": {},
+                "name": "default",
+                "status": "active"
+            },
+            "666": {
+                "dynamic": false,
+                "interfaces": {},
+                "name": "VLAN0666",
+                "status": "active"
+            }
+        }
+    }
+}
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [save BEFORE file IDs.] *****************************************************************************************
+ok: [sp1.dev.ams.test -> 127.0.0.1] => {
+    "ansible_facts": {
+        "before_ids": [
+            1586179335,
+            1586179336,
+            1586179337,
+            1586179338,
+            1586179338
+        ]
+    },
+    "changed": false
+}
+
+TASK [CONF | change NTP, SNMP, PREFIX-LIST and VLAN config.] *********************************************************
+changed: [sp1.dev.ams.test] => {
+    "changed": true,
+    "commands": [
+        "no ntp server vrf mgmt 216.239.35.8",
+        "ntp server vrf mgmt 216.239.35.12",
+        "no snmp-server host 8.8.8.4 version 2c public",
+        "snmp-server host 1.1.1.1 version 2c public",
+        "ip prefix-list T666 seq 15 permit 8.8.4.4/32",
+        "no ip prefix-list T666 seq 10 permit 8.8.8.8/32",
+        "no vlan 666",
+        "vlan 999"
+    ],
+    "session": "ansible_1586179343",
+    "updates": [
+        "no ntp server vrf mgmt 216.239.35.8",
+        "ntp server vrf mgmt 216.239.35.12",
+        "no snmp-server host 8.8.8.4 version 2c public",
+        "snmp-server host 1.1.1.1 version 2c public",
+        "ip prefix-list T666 seq 15 permit 8.8.4.4/32",
+        "no ip prefix-list T666 seq 10 permit 8.8.8.8/32",
+        "no vlan 666",
+        "vlan 999"
+    ]
+}
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [CONF | clear MAC table.] ***************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+STDOUT:
+
+['']
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [run AFTER tests.] **********************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "after_file_ids": [
+        1586179355,
+        1586179355,
+        1586179356,
+        1586179357,
+        1586179357
+    ],
+    "arp": {
+        "dynamicEntries": 1,
+        "ipV4Neighbors": [
+            {
+                "address": "192.168.1.2",
+                "age": 0,
+                "hwAddress": "0800.272c.2f96",
+                "interface": "Ethernet1"
+            }
+        ],
+        "notLearnedEntries": 0,
+        "staticEntries": 0,
+        "totalEntries": 1
+    },
+    "changed": false,
+    "ntp": {
+        "peers": {
+            "ns1.sys.cloudsys.tmcs": {
+                "condition": "reject",
+                "delay": 0.898,
+                "jitter": 0.0,
+                "lastReceived": 1586179348.0,
+                "offset": 0.547,
+                "peerIpAddr": "10.75.32.5",
+                "peerType": "unicast",
+                "pollInterval": 64,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": "169.254.0.1",
+                "stratumLevel": 3
+            },
+            "ns2.sys.cloudsys.tmcs": {
+                "condition": "reject",
+                "delay": 1.601,
+                "jitter": 0.0,
+                "lastReceived": 1586179349.0,
+                "offset": 0.379,
+                "peerIpAddr": "10.75.33.5",
+                "peerType": "unicast",
+                "pollInterval": 64,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": "169.254.0.1",
+                "stratumLevel": 3
+            },
+            "time2.google.com": {
+                "condition": "reject",
+                "delay": 0.0,
+                "jitter": 0.0,
+                "lastReceived": 2085978496.0,
+                "offset": 0.0,
+                "peerIpAddr": "216.239.35.4",
+                "peerType": "unicast",
+                "pollInterval": 1024,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": ".INIT.",
+                "stratumLevel": 16
+            },
+            "time4.google.com": {
+                "condition": "reject",
+                "delay": 0.0,
+                "jitter": 0.0,
+                "lastReceived": 2085978496.0,
+                "offset": 0.0,
+                "peerIpAddr": "216.239.35.12",
+                "peerType": "unicast",
+                "pollInterval": 1024,
+                "reachabilityHistory": [
+                    true
+                ],
+                "refid": ".INIT.",
+                "stratumLevel": 16
+            }
+        }
+    },
+    "prefix_list": {
+        "ipPrefixLists": {
+            "T666": {
+                "duplicateHandling": "duplicateError",
+                "ipPrefixEntries": [
+                    {
+                        "filterType": "permit",
+                        "ge": 0,
+                        "le": 0,
+                        "prefix": "8.8.4.4/32",
+                        "seqno": 15
+                    }
+                ]
+            }
+        }
+    },
+    "snmp": {
+        "hosts": [
+            {
+                "hostname": "1.1.1.1",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "public"
+                },
+                "vrf": ""
+            },
+            {
+                "hostname": "10.226.234.116",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.226.234.117",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.226.236.4",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.227.234.116",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.227.236.4",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.128.200",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.128.215",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.5.196",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.247.5.202",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.63.65.249",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.63.65.254",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.66.65.19",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.66.65.24",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.70.65.18",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.70.65.21",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.120.238",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.126",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.127",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.162",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.194",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.74.26.73",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.128.193",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.31",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.32",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.33",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.228.69",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.194",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.195",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.50",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.52",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.75.26.73",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.78.65.127",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "10.78.65.17",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.125.124",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.196.120",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.66.105",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.92.126",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.92.127",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "192.168.92.73",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "29.0.5.27",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "fluffytail"
+                },
+                "vrf": "mgmt"
+            },
+            {
+                "hostname": "8.8.8.8",
+                "notificationType": "trap",
+                "port": 162,
+                "protocolVersion": "v2c",
+                "v1v2cParams": {
+                    "communityString": "public"
+                },
+                "vrf": ""
+            }
+        ]
+    },
+    "vlan": {
+        "sourceDetail": "",
+        "vlans": {
+            "1": {
+                "dynamic": false,
+                "interfaces": {},
+                "name": "default",
+                "status": "active"
+            },
+            "999": {
+                "dynamic": false,
+                "interfaces": {},
+                "name": "VLAN0999",
+                "status": "active"
+            }
+        }
+    }
+}
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [save AFTER file IDs.] ******************************************************************************************
+ok: [sp1.dev.ams.test -> 127.0.0.1] => {
+    "ansible_facts": {
+        "after_ids": [
+            1586179355,
+            1586179355,
+            1586179356,
+            1586179357,
+            1586179357
+        ]
+    },
+    "changed": false
+}
+
+TASK [run DIFF result .] *********************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false,
+    "compare": {
+        "delete": {
+            "666": {
+                "dynamic": false,
+                "interfaces": {},
+                "name": "VLAN0666",
+                "status": "active"
+            }
+        },
+        "insert": {
+            "999": {
+                "dynamic": false,
+                "interfaces": {},
+                "name": "VLAN0999",
+                "status": "active"
+            }
+        }
+    }
+}
+
+TASK [assert] ********************************************************************************************************
+ok: [sp1.dev.ams.test] => {
+    "changed": false
+}
+
+MSG:
+
+All assertions passed
+
+TASK [CONF | restore config.] ****************************************************************************************
+changed: [sp1.dev.ams.test] => {
+    "changed": true,
+    "commands": [
+        "no ntp server vrf mgmt 216.239.35.12",
+        "no ntp server vrf mgmt 216.239.35.4",
+        "no snmp-server host 8.8.8.4 version 2c public",
+        "no snmp-server host 1.1.1.1 version 2c public",
+        "no ip prefix-list T666 seq 15 permit 8.8.4.4/32",
+        "no vlan 999"
+    ],
+    "session": "ansible_1586179366",
+    "updates": [
+        "no ntp server vrf mgmt 216.239.35.12",
+        "no ntp server vrf mgmt 216.239.35.4",
+        "no snmp-server host 8.8.8.4 version 2c public",
+        "no snmp-server host 1.1.1.1 version 2c public",
+        "no ip prefix-list T666 seq 15 permit 8.8.4.4/32",
+        "no vlan 999"
+    ]
+}
+
+PLAY RECAP ***********************************************************************************************************
+sp1.dev.ams.test      : ok=20   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
