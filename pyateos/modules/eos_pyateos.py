@@ -99,7 +99,7 @@ requirements:
 EXAMPLES = """
 ---
 - name: run BEFORE tests.
-  arista.eos.eos_pyateos:
+  eos_pyateos:
     before: true
     test:
       - acl
@@ -121,7 +121,7 @@ EXAMPLES = """
       - ntp server vrf mgmt 216.239.35.4
 
 - name: run AFTER tests.
-  arista.eos.eos_pyateos:
+  eos_pyateos:
     after: true
     test:
       - acl
@@ -137,7 +137,7 @@ EXAMPLES = """
     before_ids: "{{ result.after_file_ids }}"
 
 - name: run DIFF result.
-  arista.eos.eos_pyateos:
+  eos_pyateos:
     compare: true
     group:
       - mgmt
@@ -200,13 +200,13 @@ import json
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.basic import missing_required_lib
-from ansible_collections.arista.eos.plugins.module_utils.network.eos.eos import (
+from ansible.module_utils.network.eos.eos import (
     run_commands,
 )
-from ansible_collections.arista.eos.plugins.module_utils.network.eos.eos import (
+from ansible.module_utils.network.eos.eos import (
     eos_argument_spec,
 )
-from ansible_collections.arista.eos.plugins.module_utils.network.eos.eos import (
+from ansible.module_utils.network.eos.eos import (
     get_connection,
 )
 
