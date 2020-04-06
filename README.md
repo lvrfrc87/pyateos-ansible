@@ -1,9 +1,6 @@
 # pyateos-ansible
 Ansible module for [pyATEOS](https://gitlab.com/networkAutomation/pyateos) framework.
 
-### ANSIBLE PYATEOS
-pyATEOS is supported by Ansible. `eos_pyateos` module is available. 
-
 ### Install:
 
 To install just run the command:
