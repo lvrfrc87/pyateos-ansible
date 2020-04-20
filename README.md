@@ -1,5 +1,5 @@
 # pyateos-ansible
-Ansible module for [pyATEOS](https://gitlab.com/networkAutomation/pyateos) framework.
+Ansible module for [pyATEOS](https://github.com/lvrfrc87/pyATEOS) framework.
 
 ### Install:
 
