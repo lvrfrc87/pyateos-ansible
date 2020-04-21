@@ -9,7 +9,7 @@ To install just run the command:
 
 ### Configure Ansible:
 
-Edit your `ansible.cfg` file and add the path where `git_acp` module is installed.
+Edit your `ansible.cfg` file and add the path where `eos_pyateos` module is installed.
 
 i.e.
 
