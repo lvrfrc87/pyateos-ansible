@@ -1,3 +1,6 @@
+# Ver. 1.0.3
+Fix regex for int index replace bug
+
 # Ver. 1.0.2
 Update import for asnsible<2.10
 

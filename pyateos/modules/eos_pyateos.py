@@ -386,10 +386,21 @@ def run_compare(module, count, test):
         )
 
         if test not in skip_list:
-            for integer in re.findall(r"\d+:\s", sub_applied):
-                sub_applied = sub_applied.replace(
-                    integer, '"{0}": '.format(integer[:-2])
-                )
+            # ('{', '28: ') (' ', '187: ')
+            for integer in re.findall(r"(\s|{)(\d+:\s)", sub_applied):
+                int_replacement = integer[1][:-2]
+                merged_integer = integer[0] + integer[1]
+
+                if integer[0] == '{':
+                    sub_applied = sub_applied.replace(
+                        # double {{ required by format to exscape {
+                        merged_integer, '{{"{0}": '.format(int_replacement)
+                    )
+
+                else:
+                    sub_applied = sub_applied.replace(
+                        merged_integer, ' "{0}": '.format(int_replacement)
+                    )
 
         return sub_applied
 
