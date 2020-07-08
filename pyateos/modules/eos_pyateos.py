@@ -43,7 +43,8 @@ options:
             'stp',
             'vlan',
             'vrf',
-            'vxlan']
+            'vxlan',
+            'bfd']
         type: list
     before:
         description:
@@ -274,6 +275,7 @@ def run_test(module, test):
         "vlan": "show vlan",
         "vrf": "show vrf",
         "vxlan": "show interfaces vxlan 1",
+        "bfd": "show bfd peers",
     }
 
     if test:
@@ -494,6 +496,7 @@ def main():
                 "vlan",
                 "vrf",
                 "vxlan",
+                "bfd",
             ],
         ),
         before=dict(type="bool", default=False),
@@ -554,6 +557,7 @@ def main():
         "vlan",
         "vrf",
         "vxlan",
+        "bfd",
     ]
 
     if group:
