@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="pyateos-ansible",
-    version='1.0.3',
+    version='1.0.4',
     packages=find_packages(exclude=("test*", "venv")),
     author="Federico Olivieri",
     author_email="lvrfrc87@gmail.com",
@@ -19,8 +19,6 @@ setup(
     classifiers=[
         'Topic :: Utilities',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
