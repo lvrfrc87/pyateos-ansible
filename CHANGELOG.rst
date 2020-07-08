@@ -1,3 +1,6 @@
+# Ver. 1.0.4
+Add BFD test (`show bfd peers`)
+
 # Ver. 1.0.3
 Fix regex for int index replace bug
 
