@@ -51,7 +51,8 @@ options:
             'stp',
             'vlan',
             'vrf',
-            'vxlan']
+            'vxlan',
+            'bfd']
         type: list
     before:
         description:
