@@ -346,21 +346,13 @@ def run_compare(module, count, test):
             return return_dict
 
         def filter_acls_counters(self, legal_json_diff):
-            return_dict = {"aclList": {}}
 
             for acls in legal_json_diff.values():
-                for acl_number, sequences in acls.items():
-                    for seq_number in sequences.values():
-                        for values in seq_number.values():
-                            if values.get("ruleFilter"):
-                                return_dict["aclList"][acl_number] = {
-                                    "sequence": {}
-                                }
-                                return_dict["aclList"][acl_number][
-                                    "sequence"
-                                ] = seq_number
+                for acl_change in acls.keys():
+                    if acl_change != 'insert' or acl_change != 'delete' or acl_change != None:
+                        del legal_json_diff['aclList'][acl_change]
 
-                                return return_dict
+                        return legal_json_diff
 
     def replace(string, test):
         substitutions = {
@@ -455,7 +447,7 @@ def run_compare(module, count, test):
             module.fail_json(msg="Diff file not legal:\n{}".format(legal_json_diff))
 
 
-        diff_file_id = str(
+        diff_file_id = str(round(time.time())) + '_' + str(
             (int(before_file[count]) - int(after_file[count])) * -1
         )
 
