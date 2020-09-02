@@ -1,3 +1,7 @@
+# Ver. 1.0.7
+- Add root_path argument
+- Add BFD under routing test group
+
 # Ver. 1.0.6
 - Fix ACL counters filter
 - Improved diff file name

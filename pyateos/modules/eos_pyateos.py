@@ -92,6 +92,11 @@ options:
             - Device hostname required for filesystem build
         type: str
         required: true
+    root_path:
+        description:
+            - Root path folder where test results are saved
+        type: str
+        default: '.'
 requirements:
     - jsondiff
     - jmespath
@@ -107,6 +112,7 @@ EXAMPLES = """
     group:
       - mgmt
       - layer2
+    root_path: /User/federicoolivieri
     hostname: "{{ inventory_hostname }}"
     register: result
 
@@ -130,6 +136,7 @@ EXAMPLES = """
       - mgmt
       - layer2
     hostname: "{{ inventory_hostname }}"
+    root_path: /User/federicoolivieri
     register: result
 
 - name: save AFTER file IDs.
@@ -145,6 +152,7 @@ EXAMPLES = """
       - layer2
     test: "{{ tests }}"
     hostname: "{{ inventory_hostname }}"
+    root_path: /User/federicoolivieri
     filter: true
     files:
       - "{{ before_ids }}"
@@ -242,15 +250,20 @@ def run_test(module, test):
     after = module.params.get("after")
     host = module.params.get("hostname")
     file_name = round(time.time())
+    root_path = module.params.get("root_path")
 
     if before:
-        destination = "./tests/before/{test}/{host}/".format(
-            test=test, host=host
+        destination = "{root_path}/tests/before/{test}/{host}/".format(
+            root_path=root_path,
+            test=test, 
+            host=host,
         )
 
     if after:
-        destination = "./tests/after/{test}/{host}/".format(
-            test=test, host=host
+        destination = "{root_path}/tests/after/{test}/{host}/".format(
+            root_path=root_path,
+            test=test,
+            host=host,
         )
 
     if not os.path.exists(destination):
@@ -402,13 +415,17 @@ def run_compare(module, count, test):
     after_file = module.params.get("files")[1]
     filter_flag = module.params.get("filter")
     host = module.params.get("hostname")
+    root_path = module.params.get("root_path")
 
     if len(before_file) == len(after_file):
 
         try:
             before = open(
-                "./tests/before/{test}/{host}/{before_file}.json".format(
-                    test=test, host=host, before_file=str(before_file[count])
+                "{root_path}/tests/before/{test}/{host}/{before_file}.json".format(
+                    root_path=root_path,
+                    test=test,
+                    host=host,
+                    before_file=str(before_file[count]),
                 ),
                 "r",
             )
@@ -417,16 +434,21 @@ def run_compare(module, count, test):
 
         try:
             after = open(
-                "./tests/after/{test}/{host}/{after_file}.json".format(
-                    test=test, host=host, after_file=str(after_file[count])
+                "{root_path}/tests/after/{test}/{host}/{after_file}.json".format(
+                    root_path=root_path,
+                    test=test, 
+                    host=host, 
+                    after_file=str(after_file[count]),
                 ),
                 "r",
             )
         except FileNotFoundError as error:
             module.fail_json(msg=error)
 
-        destination = "./tests/diff/{test}/{host}/".format(
-            test=test, host=host
+        destination = "{root_path}/tests/diff/{test}/{host}/".format(
+            root_path=root_path,
+            test=test, 
+            host=host,
         )
 
         if not os.path.exists(destination):
@@ -500,6 +522,7 @@ def main():
             type="list", choices=["mgmt", "routing", "layer2", "ctrl", "all"]
         ),
         hostname=dict(required=True),
+        root_path=dict(default='.')
     )
 
     argument_spec.update(eos_argument_spec)
@@ -557,7 +580,7 @@ def main():
             test_run.extend(("ntp", "snmp"))
 
         if "routing" in group:
-            test_run.extend(("bgp_evpn", "bgp_ipv4", "ip_route"))
+            test_run.extend(("bgp_evpn", "bgp_ipv4", "ip_route", "bfd"))
 
         if "layer2" in group:
             test_run.extend(("stp", "vlan", "vxlan", "lldp", "arp", "mac"))
